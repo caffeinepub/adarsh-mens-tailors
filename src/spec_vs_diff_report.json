@@ -1,0 +1,65 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-12T06:28:23.439Z",
+  "summary": "The diff introduces a new sync engine and local tombstone/pending-change tracking, plus UI sync status indicators. However, the synchronization is not fully wired to real backend persistence for creates/updates, and backend order CRUD is not clearly complete nor admin-protected as required. Several additional non-requested UI/i18n/theme changes also appear in the diff summary.",
+  "missing_requirements": [
+    {
+      "id": "REQ-18",
+      "requirement": "Replace the simulated sync engine with real synchronization so locally created/edited/deleted orders are pushed to the Motoko backend on reconnect, and successful sync results persist in backend across refresh; failures show error state without data loss.",
+      "reason": "The new sync code explicitly marks create as an error due to a 'structure mismatch' and skips updates, so offline-created/edited orders will not be persisted to the backend after reconnect. This fails the core 'real sync' and persistence acceptance criteria.",
+      "evidence": [
+        "frontend/src/features/sync/ordersSync.ts"
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "requirement": "Backend must expose and persist the complete set of admin-authorized CRUD operations required by the Orders list + Order editor UI, and the frontend must use these APIs online while keeping local storage as source of truth offline.",
+      "reason": "Backend authorization checks shown use a generic '#user' permission rather than enforcing admin-only access for all order operations. Also, the frontend sync path does not implement backend create/update, and there is no clear evidence the frontend loads/merges orders from backend when online/authorized.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/features/sync/ordersSync.ts",
+        "frontend/src/features/orders/storage.ts"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added/expanded bilingual i18n and language switch across multiple screens and components.",
+      "reason": "REQ-18/19/20 focus on backend persistence/sync and explicitly avoiding new non-tailoring features; large i18n expansion is not requested as part of these requirements.",
+      "evidence": [
+        "frontend/src/i18n/translations.ts",
+        "frontend-file-summaries.txt (LoginScreen, AccessDeniedScreen, AppHeader, multiple order components)"
+      ]
+    },
+    {
+      "description": "Introduced/changed global theme styling (warm neutral OKLCH palette) and Tailwind config updates.",
+      "reason": "Not requested by REQ-18/19/20 (which focus on persistence/sync and scope control).",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/index.css, frontend/tailwind.config.js)"
+      ]
+    },
+    {
+      "description": "Added React Query hooks for user profile fetching/saving.",
+      "reason": "Not requested by REQ-18/19/20 and unrelated to orders sync/CRUD.",
+      "evidence": [
+        "frontend-file-summaries.txt (frontend/src/hooks/useQueries.ts)"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/features/orders/storage.ts",
+    "frontend/src/features/orders/types.ts",
+    "frontend/src/features/sync/SyncStatusBadge.tsx",
+    "frontend/src/features/sync/ordersSync.ts",
+    "frontend/src/features/sync/useSyncEngine.ts",
+    "frontend/src/hooks/useAdminGate.ts",
+    "frontend/src/i18n/translations.ts",
+    "frontend/src/pages/OrdersListPage.tsx",
+    "project_state.json"
+  ]
+}

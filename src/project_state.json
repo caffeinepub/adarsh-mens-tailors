@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 9,
+  "summary": "Android app “Adarsh Mens Tailors” to manage tailoring customers and orders with offline local database, admin-only access, bilingual (English+Marathi) UI, and Ready-status messaging with WhatsApp support.",
+  "architectural_notes": [
+    "Android app with offline-first local database for customer/order/measurement data storage.",
+    "Trigger automated customer notification when order status transitions to Ready (English + Marathi templates).",
+    "App requires admin-only authentication before accessing order management.",
+    "Add WhatsApp share integration for Ready message via deep link (wa.me / whatsapp://send) ensuring only message text is included (no app/site metadata).",
+    "Add app-wide localization/i18n support for English + Marathi UI text (not limited to messaging templates).",
+    "Plan an APK build/release pipeline (debug/release signing as needed) and a distribution approach to share an installable APK link/file with the user."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-implement-admin-only-access-for-the-app-so-that-only-an-authenticated-admin-can-view-create-edit-or-delete-tailoring-orders-and-customer-details",
+      "title": "Implement admin-only access for the app so that only an authenticated admin can view, create, edit, or delete tailoring orders and customer details.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-the-primary-order-entry-edit-screen-with-three-vertically-stacked-sections-in-this-order-customer-details-top-order-details-middle-measurements-bottom-using-the-exact-fields-specified-by-the-user",
+      "title": "Create the primary Order Entry / Edit screen with three vertically stacked sections in this order: Customer Details (top), Order Details (middle), Measurements (bottom), using the exact fields specified by the user.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-auto-generate-a-unique-order-id-for-each-new-order-and-display-it-as-read-only-on-the-order-entry-edit-screen",
+      "title": "Auto-generate a unique Order ID for each new order and display it as read-only on the Order Entry / Edit screen.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-orders-list-screen-optimized-for-quick-shop-use-allowing-the-admin-to-search-filter-and-open-an-order-for-editing",
+      "title": "Add an Orders list screen optimized for quick shop use, allowing the admin to search/filter and open an order for editing.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-compute-remaining-amount-automatically-as-total-amount-paid-amount-and-keep-it-updated-when-total-amount-or-paid-amount-changes",
+      "title": "Compute Remaining Amount automatically as (Total Amount - Paid Amount) and keep it updated when Total Amount or Paid Amount changes.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-offline-first-support-allow-creating-and-editing-orders-while-offline-using-local-device-storage-and-sync-changes-to-the-backend-automatically-when-connectivity-returns-with-clear-ui-indicators-for-sync-state",
+      "title": "Provide offline-first support: allow creating and editing orders while offline using local device storage, and sync changes to the backend automatically when connectivity returns, with clear UI indicators for sync state.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-an-order-status-is-changed-to-ready-automatically-present-the-bilingual-english-marathi-ready-message-in-the-ui-and-provide-one-tap-actions-to-copy-the-message-and-to-open-the-device-messaging-app-using-the-customer-s-mobile-number-when-supported-by-the-browser",
+      "title": "When an order status is changed to \"Ready\", automatically present the bilingual (English + Marathi) ready message in the UI and provide one-tap actions to copy the message and to open the device messaging app using the customer’s mobile number (when supported by the browser).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-simple-professional-ui-theme-suitable-for-tailors-and-apply-it-consistently-across-the-app-colors-typography-spacing-and-form-layout-avoid-blue-purple-as-primary-branding-colors",
+      "title": "Create a simple, professional UI theme suitable for tailors and apply it consistently across the app (colors, typography, spacing, and form layout). Avoid blue/purple as primary branding colors.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-generated-static-images-to-the-frontend-and-use-them-in-the-ui-e-g-app-icon-logo-in-header-login-and-an-empty-state-illustration-on-the-orders-list-when-no-orders-exist-store-them-under-frontend-public-assets-generated",
+      "title": "Add generated static images to the frontend and use them in the UI (e.g., app icon/logo in header/login and an empty-state illustration on the orders list when no orders exist). Store them under frontend/public/assets/generated.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-existing-sms-send-action-in-the-ready-message-flow-with-a-whatsapp-only-send-action-ensuring-that-only-the-ready-message-text-is-shared-no-extra-website-app-details",
+      "title": "Replace the existing SMS send action in the Ready message flow with a WhatsApp-only send action, ensuring that only the Ready message text is shared (no extra website/app details).",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-whatsapp-only-ready-message-action-next-to-the-customer-name-on-the-order-editor-screen-so-the-admin-can-open-whatsapp-from-the-order-screen-without-needing-to-open-the-ready-message-popup",
+      "title": "Add a WhatsApp-only Ready message action next to the Customer Name on the order editor screen, so the admin can open WhatsApp from the order screen without needing to open the Ready message popup.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-keep-the-whatsapp-send-open-action-available-in-both-places-1-inside-the-ready-message-popup-and-2-next-to-the-customer-name-on-the-order-editor-screen",
+      "title": "Keep the WhatsApp send/open action available in both places: (1) inside the Ready message popup and (2) next to the Customer Name on the order editor screen.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-bilingual-ui-support-across-the-entire-app-for-all-user-facing-labels-headings-helper-text-and-button-text-english-marathi-not-only-for-the-ready-message-provide-a-clear-language-switch-control-in-the-ui-and-default-to-english",
+      "title": "Implement bilingual UI support across the entire app for all user-facing labels, headings, helper text, and button text (English + Marathi), not only for the Ready message. Provide a clear language switch control in the UI and default to English.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-android-packaging-setup-for-the-existing-react-frontend-so-the-project-can-be-built-as-an-installable-android-apk-webview-wrapper-without-changing-app-functionality",
+      "title": "Add an Android packaging setup for the existing React frontend so the project can be built as an installable Android APK (WebView wrapper) without changing app functionality.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-repeatable-build-command-workflow-that-outputs-a-debug-apk-file-and-document-the-exact-steps-commands-to-generate-it-from-a-clean-checkout",
+      "title": "Provide a repeatable build command/workflow that outputs a debug APK file and document the exact steps/commands to generate it from a clean checkout.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-an-apk-delivery-method-for-the-user-by-surfacing-the-generated-apk-as-a-downloadable-build-artifact-link-in-the-project-output-and-document-where-to-retrieve-it",
+      "title": "Provide an APK delivery method for the user by surfacing the generated APK as a downloadable build artifact/link in the project output (and document where to retrieve it).",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-simulated-sync-engine-with-real-synchronization-between-locally-stored-orders-offline-first-and-the-motoko-backend-so-that-when-connectivity-returns-locally-created-edited-deleted-orders-are-pushed-to-the-backend-and-the-ui-reflects-successful-sync-or-errors-without-losing-offline-functionality",
+      "title": "Replace the current simulated sync engine with real synchronization between locally-stored orders (offline-first) and the Motoko backend so that when connectivity returns, locally created/edited/deleted orders are pushed to the backend and the UI reflects successful sync (or errors) without losing offline functionality.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-motoko-backend-exposes-and-persists-the-complete-set-of-crud-operations-required-by-the-current-orders-list-order-editor-ui-and-ensure-the-frontend-uses-these-backend-apis-when-online-while-still-using-local-storage-as-the-offline-source-of-truth",
+      "title": "Ensure the Motoko backend exposes and persists the complete set of CRUD operations required by the current Orders list + Order editor UI, and ensure the frontend uses these backend APIs when online (while still using local storage as the offline source of truth).",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-keep-the-tailoring-app-scope-focused-by-deferring-all-jarvis-voice-assistant-features-until-after-the-tailoring-app-is-complete-do-not-add-voice-wake-words-calling-music-playback-whatsapp-automation-beyond-the-existing-order-ready-whatsapp-message-flow-or-flirty-funny-assistant-behavior-in-this-iteration",
+      "title": "Keep the tailoring app scope focused by deferring all Jarvis/voice-assistant features until after the tailoring app is complete; do not add voice wake words, calling, music playback, WhatsApp automation beyond the existing order-ready WhatsApp message flow, or flirty/funny assistant behavior in this iteration.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create order entry screen with sections: Customer Details, Order Details, and Measurements (upper & lower body fields as specified)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Auto-generate unique Order ID for each order",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Support order status workflow: Pending / In Progress / Ready",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Offline support using a local database to store customers, orders, and measurements",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Admin-only login to access/manage the app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Automatically send bilingual (English + Marathi) message when an order status is marked as Ready",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Simple, professional UI optimized for tailoring shop usage",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Implement order persistence in the backend for customers, orders, and measurements, with CRUD operations needed by the UI (create, list, view, update, delete).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Add WhatsApp-only share/send action for the Ready message, available both in the Ready message popup and next to the customer name on the order screen; ensure only the intended ready message text is shared (no extra website/app details).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Implement full app/web UI bilingual support (Marathi + English) for all labels/details, not just the Ready message.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Generate a distributable Android APK build and provide a download/link method for the user to install the app.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Adarsh Mens Tailors",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

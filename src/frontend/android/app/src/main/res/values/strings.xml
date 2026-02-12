@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Adarsh Mens Tailors</string>
+    <string name="title_activity_main">Adarsh Mens Tailors</string>
+    <string name="package_name">ai.caffeine.adarsh.tailors</string>
+    <string name="custom_url_scheme">ai.caffeine.adarsh.tailors</string>
+</resources>

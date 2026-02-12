@@ -1,0 +1,86 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-12T06:28:23.442Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 3,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-18",
+        "summary": "Replace the current simulated sync engine with real synchronization between locally-stored orders (offline-first) and the Motoko backend so that when connectivity returns, locally created/edited/deleted orders are pushed to the backend and the UI reflects successful sync (or errors) without losing offline functionality.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/features/orders/types.ts",
+          "frontend/src/features/orders/storage.ts",
+          "frontend/src/features/sync/ordersSync.ts",
+          "frontend/src/features/sync/useSyncEngine.ts",
+          "frontend/src/features/sync/SyncStatusBadge.tsx",
+          "frontend/src/i18n/translations.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/features/orders/types.ts",
+          "frontend/src/features/orders/storage.ts",
+          "frontend/src/features/sync/ordersSync.ts",
+          "frontend/src/features/sync/useSyncEngine.ts",
+          "frontend/src/features/sync/SyncStatusBadge.tsx",
+          "frontend/src/i18n/translations.ts"
+        ]
+      },
+      {
+        "id": "REQ-19",
+        "summary": "Ensure the Motoko backend exposes and persists the complete set of CRUD operations required by the current Orders list + Order editor UI, and ensure the frontend uses these backend APIs when online (while still using local storage as the offline source of truth).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/features/sync/ordersSync.ts",
+          "frontend/src/hooks/useAdminGate.ts",
+          "frontend/src/pages/OrdersListPage.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/features/sync/ordersSync.ts",
+          "frontend/src/hooks/useAdminGate.ts",
+          "frontend/src/pages/OrdersListPage.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-20",
+        "summary": "Keep the tailoring app scope focused by deferring all Jarvis/voice-assistant features until after the tailoring app is complete; do not add voice wake words, calling, music playback, WhatsApp automation beyond the existing order-ready WhatsApp message flow, or flirty/funny assistant behavior in this iteration.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/features/sync/useSyncEngine.ts",
+          "frontend/src/pages/OrdersListPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/features/sync/useSyncEngine.ts",
+          "frontend/src/pages/OrdersListPage.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/main.mo",
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/App.tsx",
+    "frontend/src/features/orders/storage.ts",
+    "frontend/src/features/orders/types.ts",
+    "frontend/src/features/sync/SyncStatusBadge.tsx",
+    "frontend/src/features/sync/ordersSync.ts",
+    "frontend/src/features/sync/useSyncEngine.ts",
+    "frontend/src/hooks/useAdminGate.ts",
+    "frontend/src/i18n/translations.ts",
+    "frontend/src/pages/OrdersListPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Tailoring app: offline-first orders with real backend sync and admin-only online CRUD",
+  "requirements": [
+    {
+      "id": "REQ-18",
+      "summary": "Replace simulated sync with real offline-first order sync to backend, including automatic retry on reconnect, status indicator updates, and error-safe behavior.",
+      "acceptanceCriteria": [
+        "When the device is offline, the admin can still create, edit, and delete orders and changes are persisted locally.",
+        "When the device transitions from offline to online, the app automatically attempts a real sync (not a simulated timeout) and updates the sync indicator accordingly.",
+        "After a successful sync, orders created/updated/deleted while offline are persisted in the backend and are still present after a full page refresh / app restart while online.",
+        "If backend sync fails (e.g., unauthorized, transient failure), the UI shows an error sync state and local data remains intact (no data loss)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/orders/types.ts",
+          "operation": "modify",
+          "description": "Extend LocalOrder sync metadata to support real sync without data loss: track pending create/update, pending delete (tombstone), lastSyncError, and backend linkage identifiers needed to merge remote changes into local storage."
+        },
+        {
+          "path": "frontend/src/features/orders/storage.ts",
+          "operation": "modify",
+          "description": "Upgrade local order persistence to support offline-first sync: (1) retain deleted orders as tombstones for later sync instead of removing immediately, (2) expose helpers to list pending changes and mark records synced/error, (3) provide a merge/replace capability for integrating remote orders while avoiding duplicates, all while keeping localStorage as the offline source of truth."
+        },
+        {
+          "path": "frontend/src/features/sync/ordersSync.ts",
+          "operation": "create",
+          "description": "Implement order synchronization logic that (a) pushes locally pending creates/updates/deletes to the backend via the existing actor methods when online and authorized, (b) pulls backend orders and merges them into local storage without duplicating, and (c) returns structured sync results/errors for UI. Use the authorization component’s frontend guidance to handle admin-only flows and to present authorization failures gracefully. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/sync/useSyncEngine.ts",
+          "operation": "modify",
+          "description": "Replace simulated timeouts with a real sync engine: wire in connectivity detection, actor availability, and the ordersSync module; auto-trigger sync on transition to online and on app start for authorized admins; maintain syncStatus including 'error' with lastSyncTime and lastError message while ensuring local data remains intact on failures. Use the authorization component’s frontend guidance for handling backend authorization errors (trap/unauthorized) without breaking offline mode. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/sync/SyncStatusBadge.tsx",
+          "operation": "modify",
+          "description": "Update the sync badge to reflect real sync states: offline, syncing, online, and error (with clear English copy) and ensure it stays accurate during reconnect attempts and backend failures. Use the authorization component’s frontend guidance to display authorization-related sync failures clearly and safely. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/i18n/translations.ts",
+          "operation": "modify",
+          "description": "Add English (and Marathi parity where appropriate) translation keys for sync state labels and sync error messaging to ensure any new user-facing text introduced by real sync remains in English by default, per constraints."
+        }
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "summary": "Ensure the frontend uses admin-protected backend order CRUD when online and merges backend data into local storage while keeping local storage as the offline source of truth.",
+      "acceptanceCriteria": [
+        "Backend supports create/list/get/update/delete for orders needed by the UI, protected by admin authorization.",
+        "Frontend can load existing orders from the backend when online and authorized, and merges them into local storage without duplicating records.",
+        "Admin-only access is enforced for all backend order operations; non-admin callers cannot read or mutate orders."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/sync/ordersSync.ts",
+          "operation": "modify",
+          "description": "Within the sync implementation, use backend CRUD capabilities for orders when online (create/update/delete + pull list/get as needed) and ensure merge logic deduplicates records (e.g., by stable backend linkage identifiers stored in LocalOrder metadata). Use the authorization component’s frontend guidance to treat non-admin/unauthorized results as a guarded error state (no data leakage), and keep local data as the source of truth offline. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useAdminGate.ts",
+          "operation": "modify",
+          "description": "Harden admin gating behavior for online data operations: ensure sync/online fetches only run after admin status is confirmed, and that transitions between identities clear any cached order sync state that could reveal restricted data. Use the authorization component’s frontend guidance for admin-only access UI behavior. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/OrdersListPage.tsx",
+          "operation": "modify",
+          "description": "Wire backend-backed online hydration into the existing orders workflow by ensuring the page triggers/reflects sync-driven merges into local storage (without adding new routes). Maintain the existing offline-first behavior and ensure deleted tombstones are not displayed in the list UI."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Adjust app boot flow so that, once authenticated and authorized as admin, the real sync engine is started and can hydrate local storage from backend (when online) while preserving the offline-first UI behavior. Use the authorization component’s frontend guidance for login/logout cache clearing expectations. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "summary": "Keep scope limited to tailoring workflows only; do not introduce any new voice-assistant or unrelated features during sync/persistence work.",
+      "acceptanceCriteria": [
+        "No new voice-assistant or \"Hello John\" wake-word functionality is introduced in the tailoring app.",
+        "No new non-tailoring features are added beyond completing the existing tailoring workflows and persistence/sync."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/sync/useSyncEngine.ts",
+          "operation": "modify",
+          "description": "Ensure sync-related UI/logic changes remain strictly focused on tailoring order persistence/synchronization; do not add any voice/assistant triggers, background audio, calling, or WhatsApp automation beyond the existing order-ready message flow."
+        },
+        {
+          "path": "frontend/src/pages/OrdersListPage.tsx",
+          "operation": "modify",
+          "description": "Confirm any UI changes made for sync status/error display remain within the existing orders workflow and do not introduce new non-tailoring features or new top-level pages/routes."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-replace-the-current-simulated-sync-engine-with-real-synchronization-between-locally-stored-orders-offline-first-and-the-motoko-backend-so-that-when-connectivity-returns-locally-created-edited-deleted-orders-are-pushed-to-the-backend-and-the-ui-reflects-successful-sync-or-errors-without-losing-offline-functionality",
+      "featureTitle": "Replace the current simulated sync engine with real synchronization between locally-stored orders (offline-first) and the Motoko backend so that when connectivity returns, locally created/edited/deleted orders are pushed to the backend and the UI reflects successful sync (or errors) without losing offline functionality.",
+      "files": [
+        "frontend/src/features/orders/storage.ts",
+        "frontend/src/features/orders/types.ts",
+        "frontend/src/features/sync/SyncStatusBadge.tsx",
+        "frontend/src/features/sync/ordersSync.ts",
+        "frontend/src/features/sync/useSyncEngine.ts",
+        "frontend/src/i18n/translations.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-18"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-motoko-backend-exposes-and-persists-the-complete-set-of-crud-operations-required-by-the-current-orders-list-order-editor-ui-and-ensure-the-frontend-uses-these-backend-apis-when-online-while-still-using-local-storage-as-the-offline-source-of-truth",
+      "featureTitle": "Ensure the Motoko backend exposes and persists the complete set of CRUD operations required by the current Orders list + Order editor UI, and ensure the frontend uses these backend APIs when online (while still using local storage as the offline source of truth).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/sync/ordersSync.ts",
+        "frontend/src/hooks/useAdminGate.ts",
+        "frontend/src/pages/OrdersListPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-19"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-keep-the-tailoring-app-scope-focused-by-deferring-all-jarvis-voice-assistant-features-until-after-the-tailoring-app-is-complete-do-not-add-voice-wake-words-calling-music-playback-whatsapp-automation-beyond-the-existing-order-ready-whatsapp-message-flow-or-flirty-funny-assistant-behavior-in-this-iteration",
+      "featureTitle": "Keep the tailoring app scope focused by deferring all Jarvis/voice-assistant features until after the tailoring app is complete; do not add voice wake words, calling, music playback, WhatsApp automation beyond the existing order-ready WhatsApp message flow, or flirty/funny assistant behavior in this iteration.",
+      "files": [
+        "frontend/src/features/sync/useSyncEngine.ts",
+        "frontend/src/pages/OrdersListPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-20"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

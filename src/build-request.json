@@ -1,0 +1,87 @@
+{
+  "kind": "build_request",
+  "title": "Complete tailoring app by wiring offline-first UI to real backend persistence and sync",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-18",
+      "text": "Replace the current simulated sync engine with real synchronization between locally-stored orders (offline-first) and the Motoko backend so that when connectivity returns, locally created/edited/deleted orders are pushed to the backend and the UI reflects successful sync (or errors) without losing offline functionality.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-20"
+        ],
+        "quotes": [
+          "Tailor app pura banao uske baad ise karenge"
+        ]
+      },
+      "acceptanceCriteria": [
+        "When the device is offline, the admin can still create, edit, and delete orders and changes are persisted locally.",
+        "When the device transitions from offline to online, the app automatically attempts a real sync (not a simulated timeout) and updates the sync indicator accordingly.",
+        "After a successful sync, orders created/updated/deleted while offline are persisted in the backend and are still present after a full page refresh / app restart while online.",
+        "If backend sync fails (e.g., unauthorized, transient failure), the UI shows an error sync state and local data remains intact (no data loss)."
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "text": "Ensure the Motoko backend exposes and persists the complete set of CRUD operations required by the current Orders list + Order editor UI, and ensure the frontend uses these backend APIs when online (while still using local storage as the offline source of truth).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-20"
+        ],
+        "quotes": [
+          "Tailor app pura banao uske baad ise karenge"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend supports create/list/get/update/delete for orders needed by the UI, protected by admin authorization.",
+        "Frontend can load existing orders from the backend when online and authorized, and merges them into local storage without duplicating records.",
+        "Admin-only access is enforced for all backend order operations; non-admin callers cannot read or mutate orders."
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "text": "Keep the tailoring app scope focused by deferring all Jarvis/voice-assistant features until after the tailoring app is complete; do not add voice wake words, calling, music playback, WhatsApp automation beyond the existing order-ready WhatsApp message flow, or flirty/funny assistant behavior in this iteration.",
+      "target": "unknown",
+      "source": {
+        "messageIds": [
+          "msg-20"
+        ],
+        "quotes": [
+          "Tailor app pura banao uske baad ise karenge"
+        ]
+      },
+      "acceptanceCriteria": [
+        "No new voice-assistant or \"Hello John\" wake-word functionality is introduced in the tailoring app.",
+        "No new non-tailoring features are added beyond completing the existing tailoring workflows and persistence/sync."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor with all logic in backend/main.mo; add backend/migration.mo only if an upgrade requires state migration.",
+    "Do not edit any files under frontend/src/components/ui or any frontend immutablePaths listed in SYSTEM_CONTEXT; compose those components instead.",
+    "Use English for any user-facing text added as part of this build request."
+  ],
+  "nonGoals": [
+    "Building a Jarvis-style voice assistant app or implementing voice command recognition/execution.",
+    "Adding third-party authentication providers beyond Internet Identity.",
+    "Adding real-time messaging/chat, push notifications, or external databases."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [
+      "Use English for user-facing text in build specs and any new UI copy added during this iteration."
+    ],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}
